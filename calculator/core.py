@@ -18,8 +18,11 @@ def parse_shutter(text):          # "1/250" or "2"
         return float(num) / float(den)
     return float(text)
 
-def format_shutter(seconds):
-    return f"{seconds:g}s" if seconds >= 1 else f"1/{round(1 / seconds)}"
+def format_shutter(seconds: float) -> str:
+    # From 0.3 s up, cameras show decimals (0.8s, 2.5s); faster speeds as fractions
+    if seconds >= 0.3:
+        return f"{round(seconds, 1):g}s"
+    return f"1/{round(1 / seconds)}"
 
 def solve_missing(ev, aperture=None, shutter=None, iso=None):
     """Give exactly two of the three settings; the third is calculated."""

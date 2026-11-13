@@ -17,11 +17,21 @@
 
   {% if result %}
     <div class="result">
-      <p><strong>Set your camera to:</strong><br>
-        <span class="{% if result.solved == 'aperture' %}solved{% endif %}">f/{{ result.camera.aperture }}</span> &nbsp;
-        <span class="{% if result.solved == 'shutter' %}solved{% endif %}">{{ result.camera.shutter }}</span> &nbsp;
-        <span class="{% if result.solved == 'iso' %}solved{% endif %}">ISO {{ result.camera.iso }}</span>
-      </p>
+    <p class="result-title">Set your camera to:</p>
+      <div class="values">
+        <div class="value {% if result.solved == 'aperture' %}solved{% endif %}">
+          <span class="value-label">Aperture</span>
+          <span class="value-number">f/{{ result.camera.aperture|floatformat:"-1" }}</span>
+        </div>
+        <div class="value {% if result.solved == 'shutter' %}solved{% endif %}">
+          <span class="value-label">Shutter</span>
+          <span class="value-number">{{ result.camera.shutter }}</span>
+        </div>
+        <div class="value {% if result.solved == 'iso' %}solved{% endif %}">
+          <span class="value-label">ISO</span>
+          <span class="value-number">{{ result.camera.iso }}</span>
+        </div>
+      </div>
       <p class="small">
         Exact: f/{{ result.exact.aperture }} &nbsp; {{ result.exact.shutter }} &nbsp; ISO {{ result.exact.iso }}
         · EV {{ result.ev100 }}<br>

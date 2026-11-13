@@ -1,6 +1,7 @@
 from django import forms
 from calculator.core import parse_shutter
 from calculator.scenes import SCENES
+from calculator.stops import APERTURES, ISOS, SHUTTERS
 
 
 class ShutterField(forms.CharField):
@@ -26,13 +27,32 @@ class ExposureForm(forms.Form):
         choices=[(ev, f"{name} (EV {ev})") for ev, name in SCENES],
         initial=12,
     )
-    aperture = forms.FloatField(min_value=0.5, required=False, label="Aperture f/")
-    shutter = ShutterField(required=False, label="Shutter")
-    iso = forms.FloatField(min_value=1, required=False, label="ISO")
+    aperture = forms.TypedChoiceField(
+        label="Aperture",
+        coerce=float,
+        empty_value=None,            # "calculate" option -> None
+        required=False,
+        choices=[("", "— calculate —")] + [(n, f"f/{n}") for n in APERTURES],
+    )
+    shutter = forms.TypedChoiceField(
+        label="Shutter",
+        coerce=parse_shutter,        # "1/250" -> 0.004 seconds
+        empty_value=None,            # "calculate" option -> None
+        required=False,
+        choices=[("", "— calculate —")]
+        + [(s, s if "/" in s else f"{s}s") for s in SHUTTERS],
+    )
+    iso = forms.TypedChoiceField(
+        label="ISO",
+        coerce=int,
+        empty_value=None,            # "calculate" option -> None
+        required=False,
+        choices=[("", "— calculate —")] + [(n, str(n)) for n in ISOS],
+    )
 
     def clean(self):
         data = super().clean()
-        # Skip this check if a field already failed (e.g. bad shutter text)
+        # Skip this check if a field already failed
         if self.errors:
             return data
         settings = [data.get("aperture"), data.get("shutter"), data.get("iso")]
