@@ -1,0 +1,119 @@
+/* ===== Base (mobile first: phones and small screens) ===== */
+
+:root {
+  --text: #222;
+  --muted: #555;
+  --accent: #2f6f3e;
+  --result-bg: #eef6ee;
+  --solved-bg: #ffe9a8;
+  --error: #c00;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0;
+  padding: 16px;
+}
+
+.container { max-width: 1000px; margin: 0 auto; }
+
+/* Navigation */
+nav { display: flex; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid #ddd; }
+nav a { color: var(--accent); text-decoration: none; font-weight: 600; }
+nav a:hover { text-decoration: underline; }
+
+h1 { font-size: 1.5rem; margin: 16px 0 8px; }
+
+/* Form: labels above fields, full width */
+fieldset { border: 1px solid #ccc; border-radius: var(--radius); padding: 12px; margin: 0 0 16px; }
+label { display: block; font-weight: 600; margin-top: 8px; }
+input, select {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;           /* 16px+ stops iPhone from zooming in */
+  border: 1px solid #bbb;
+  border-radius: 6px;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+button:hover { opacity: 0.9; }
+
+/* Errors */
+.errorlist { color: var(--error); list-style: none; padding: 0; margin: 4px 0; }
+
+/* Result box */
+.result {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--result-bg);
+  border-radius: var(--radius);
+  text-align: center;
+}
+.result-title { font-weight: 600; margin: 0 0 12px; }
+.small { color: var(--muted); font-size: 0.9em; }
+
+/* Three tiles: Aperture / Shutter / ISO */
+.values {
+  display: flex;
+  justify-content: center;   /* centered horizontally */
+  gap: 12px;
+}
+.value {
+  flex: 1;
+  max-width: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* label + number centered vertically inside the tile */
+  align-items: center;
+  min-height: 80px;
+  background: #fff;
+  border: 1px solid #cfe3cf;
+  border-radius: var(--radius);
+}
+.value-label { font-size: 0.8em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.value-number { font-size: 1.4em; font-weight: 600; }
+.value.solved { background: var(--solved-bg); border-color: #e8c96a; }
+
+code { background: #f3f3f3; padding: 2px 4px; border-radius: 4px; word-break: break-all; }
+
+
+/* ===== Tablets, laptops and larger (800px and up) ===== */
+
+@media (min-width: 800px) {
+  body { padding: 32px; }
+  h1 { font-size: 2rem; }
+
+  /* Form on the left, result on the right */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .result { margin-top: 0; }
+
+  /* Label and field on one line */
+  fieldset {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 8px 12px;
+    align-items: center;
+  }
+  label { margin: 0; }
+  fieldset .errorlist { grid-column: 1 / -1; }   /* errors span the full row */
+
+  button { width: auto; padding: 10px 32px; }
+}
