@@ -1,0 +1,38 @@
+{% extends "calculator/base.html" %}
+
+{% block content %}
+<h1>Exposure calculator</h1>
+<p>Pick the light, fill in two settings, leave one empty. The empty one gets calculated.</p>
+
+<form method="get">
+  {{ form.non_field_errors }}
+  <fieldset>
+    {% for field in form %}
+      {{ field.errors }}{{ field.label_tag }} {{ field }}<br>
+    {% endfor %}
+  </fieldset>
+  <button type="submit">Calculate</button>
+</form>
+
+{% if result %}
+  <div class="result">
+    <p><strong>Set your camera to:</strong><br>
+      <span class="{% if result.solved == 'aperture' %}solved{% endif %}">f/{{ result.camera.aperture }}</span> &nbsp;
+      <span class="{% if result.solved == 'shutter' %}solved{% endif %}">{{ result.camera.shutter }}</span> &nbsp;
+      <span class="{% if result.solved == 'iso' %}solved{% endif %}">ISO {{ result.camera.iso }}</span>
+    </p>
+    <p class="small">
+      Exact: f/{{ result.exact.aperture }} &nbsp; {{ result.exact.shutter }} &nbsp; ISO {{ result.exact.iso }}
+      · EV {{ result.ev100 }}<br>
+      {% if result.stops_off == 0 %}
+        Exposure matches exactly.
+      {% else %}
+        Off by {{ result.stops_off|floatformat:2 }} stop{% if result.stops_off > 0 %} (slightly brighter){% else %} (slightly darker){% endif %}.
+      {% endif %}
+    </p>
+    {% if result.out_of_range %}
+      <p class="errorlist">The exact value is outside the camera's range. Change one of the other settings.</p>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

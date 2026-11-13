@@ -1,0 +1,16 @@
+{% extends "calculator/base.html" %}
+
+{% block title %}How it works · {{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>How it works</h1>
+<p>Every scene has a brightness, measured as an exposure value at ISO 100 (EV100).
+A sunny day is about EV 15, a normal room about EV 7.</p>
+<p>Aperture, shutter speed and ISO are linked to it by:</p>
+<p><code>EV100 = log2(N² / t) − log2(ISO / 100)</code></p>
+<p>Pick the light and two settings, and the third is calculated, then rounded to the
+nearest value a real camera offers (1/3-stop steps).</p>
+
+<h2>API</h2>
+<p><code>GET /api/exposure/?light=12&amp;aperture=5.6&amp;iso=200</code></p>
+{% endblock %}

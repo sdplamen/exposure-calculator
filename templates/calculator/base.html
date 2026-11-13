@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Exposure calculator{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; }
+    nav a { margin-right: 16px; }
+    fieldset { margin-bottom: 16px; border-radius: 8px; }
+    label { display: inline-block; width: 130px; }
+    input { width: 110px; margin: 4px 0; }
+    .errorlist { color: #c00; margin: 0; }
+    .result { padding: 4px 16px; background: #eef6ee; border-radius: 8px; }
+    .result p:first-child { font-size: 1.3em; }
+    .small { color: #555; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'calculator:index' %}">Calculator</a>
+    <a href="{% url 'calculator:about' %}">How it works</a>
+  </nav>
+  {% block content %}{% endblock %}
+</body>
+</html>
