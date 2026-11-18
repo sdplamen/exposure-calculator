@@ -1,0 +1,12 @@
+.git
+.gitignore
+.idea
+.env
+venv
+.pytest_cache
+**/__pycache__
+**/*.pyc
+staticfiles
+db.sqlite3
+Dockerfile
+.dockerignore
